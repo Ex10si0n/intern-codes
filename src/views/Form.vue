@@ -12,11 +12,11 @@ const years = computed(() => {
   return Array.from({length: 120}, (_, i) => currentYear - i)
 })
 
-const month = computed(() => {
+const months = computed(() => {
   return Array.from({length: 12}, (_, i) => i + 1)
 })
 
-const day = computed(() => {
+const days = computed(() => {
   return Array.from({length: 31}, (_, i) => i + 1)
 })
 
@@ -78,6 +78,7 @@ const save = () => {
     }
     store.commit('save', payload)
     router.push('/code')
+
   }
 }
 
@@ -191,13 +192,13 @@ const checkContact = (stat: number) => {
                   v-model="monthOfBirth"
                   class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
             <option selected>-- 月 --</option>
-            <option v-for="month in month" :key="month" :value="month">{{ month }}</option>
+            <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
           </select>
           <select name="day"
                   v-model="dayOfBirth"
                   class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
             <option selected>-- 日 --</option>
-            <option v-for="day in day" :key="day" :value="day">{{ day }}</option>
+            <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
           </select>
 
         </div>

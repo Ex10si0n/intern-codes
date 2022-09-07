@@ -27,9 +27,6 @@ const name = computed(() => store.state.name)
             <span>姓名：{{ name }}</span>
           </div>
         </div>
-        <img v-if="name" class="object-center" src="
-          https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ name }}
-        ">
       </div>
     </div>
 
