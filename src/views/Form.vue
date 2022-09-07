@@ -108,7 +108,7 @@ const day = computed(() => {
         </div>
         <div class="grid grid-cols-4 gap-2">
           <select name="regionCode" class="col-span-1 w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700 bg-slate-100 shadow">
-            <option selected>-- 区号 --</option>
+            <option selected>- 区号 -</option>
             <option v-for="region in countries.countryListAllIsoData">
               {{ region.phone_code }} - {{ region.cn }}
             </option>
@@ -121,18 +121,43 @@ const day = computed(() => {
       <div class="text-sm text-gray-700">
         您今天是否出现以下症状?
       </div>
-      发烧
-      干咳，乏力，咽痛，嗅(味)觉减退、腹泻或其他呼吸道症状
-      没有以上症状
+    </div>
+
+    <div class="min-w-full max-w-md px-3 py-3 justify-center bg-white shadow-md">
+      <div class="py-1">
+        <input type="checkbox">
+        <span class="px-1 text-sm text-gray-700">发烧</span>
+      </div>
+      <div class="py-1">
+        <input type="checkbox">
+        <span class="px-1 text-sm text-gray-700">干咳，乏力，咽痛，嗅(味)觉减退、腹泻或其他呼吸道症状</span>
+      </div>
+      <div class="py-1">
+        <input type="checkbox">
+        <span class="px-1 text-sm text-gray-700">没有以上症状</span>
+      </div>
     </div>
 
     <div class="min-w-full max-w-md px-3 py-1 justify-center bg-gray-200 shadow-md">
       <div class="text-sm text-gray-700">
         您在过去14天内是否曾在无防护措施下接触新冠肺炎确诊病人?
       </div>
-      是
-      否
+    </div>
+    <div class="min-w-full max-w-md px-3 py-3 justify-center bg-white shadow-md">
+      <div class="py-1">
+        <input type="checkbox">
+        <span class="px-1 text-sm text-gray-700">是</span>
+      </div>
+      <div class="py-1">
+        <input type="checkbox">
+        <span class="px-1 text-sm text-gray-700">否</span>
+      </div>
+    </div>
+    <div class="min-w-full max-w-md px-3 py-1 justify-center bg-white shadow-md">
+      <div class="grid grid-cols-2 gap-2">
+        <button class="col-span-1 my-2 py-2 border rounded">重置</button>
+        <button class="col-span-1 my-2 py-2 border rounded bg-blue-400 text-white">下一步</button>
+      </div>
     </div>
   </div>
-
 </template>
