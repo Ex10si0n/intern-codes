@@ -7,5 +7,6 @@ export default createRouter({
     history: webHistory,
     routes: [
         { path: "/", component: () => import(/* webpackChunkName: "form" */ "../views/Form.vue") },
+        { path: "/code", component: () => import(/* webpackChunkName: "code" */ "../views/Code.vue") },
     ]
 })
