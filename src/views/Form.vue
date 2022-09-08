@@ -5,7 +5,7 @@ import countries from "../store/countries"
 import router from "../router/router";
 
 const store = useStore()
-const hello = computed(() => store.state.hello)
+const checked = ref(0)
 
 const years = computed(() => {
   const currentYear = new Date().getFullYear()
@@ -41,7 +41,12 @@ const nonContact = ref(false);
 
 const checkSubmit = () => {
   let emptyField = [];
-  if (!(usingMacaoID.value || usingVisa.value)) { emptyField.push('身份证或出入境澳门证件'); }
+  checked.value = 1;
+  if (!(usingMacaoID.value || usingVisa.value)) {
+    // highlight the field
+
+    emptyField.push('身份证或出入境澳门证件');
+  }
   if (!(fever.value || cough.value || noneSymptom.value)) { emptyField.push('症状'); }
   if (!(contact.value || nonContact.value)) { emptyField.push('过去14天内是否接触新冠肺炎患者'); }
   if (name.value === '') { emptyField.push('姓名') }
@@ -159,7 +164,8 @@ const checkContact = (stat: number) => {
           <span class="text-red-600 pr-1">*</span>
           <span>姓名：</span>
         </div>
-        <input v-model="name" class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700">
+        <input v-if="checked === 1 && name === ''" v-model="name" class="w-full h-12 border-red-500 border-2 p-3 rounded text-md text-gray-700">
+        <input v-else v-model="name" class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700">
       </div>
 
       <div class="py-1">
@@ -167,7 +173,14 @@ const checkContact = (stat: number) => {
           <span class="text-red-600 pr-1">*</span>
           <span>性别：</span>
         </div>
-        <select name="gender"
+        <select v-if="checked === 1 && gender ==='-- 请选择 --'" name="gender"
+                v-model="gender"
+                class="w-full h-12 border-red-500 border-2 p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
+          <option selected>-- 请选择 --</option>
+          <option value="M">男</option>
+          <option value="F">女</option>
+        </select>
+        <select v-else name="gender"
                 v-model="gender"
                 class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
           <option selected>-- 请选择 --</option>
@@ -182,19 +195,42 @@ const checkContact = (stat: number) => {
           <span>出生日期：(年 月 日)</span>
         </div>
         <div class="grid grid-cols-3 gap-2">
-          <select name="year"
+
+          <select v-if="checked === 1 && yearOfBirth === '-- 年 --'" name="yearOfBirth"
+                  v-model="yearOfBirth"
+                  class="h-12 border-red-500 border-2 p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
+            <option selected>-- 年 --</option>
+            <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+          </select>
+          <select v-else name="year"
                   v-model="yearOfBirth"
                   class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
             <option selected>-- 年 --</option>
             <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
           </select>
-          <select name="month"
+
+          <select v-if="checked === 1 && monthOfBirth === '-- 月 --'" name="month"
+                  v-model="monthOfBirth"
+                  class="w-full h-12 border-red-500 border-2 p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
+            <option selected>-- 月 --</option>
+            <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
+          </select>
+          <select v-else name="month"
                   v-model="monthOfBirth"
                   class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
             <option selected>-- 月 --</option>
             <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
           </select>
-          <select name="day"
+
+
+          <select v-if="checked === 1 && dayOfBirth === '-- 日 --'" name="day"
+                  v-model="dayOfBirth"
+                  class="w-full h-12 border-red-500 border-2 p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
+            <option selected>-- 日 --</option>
+            <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
+          </select>
+
+          <select v-else name="day"
                   v-model="dayOfBirth"
                   class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700 bg-slate-100 border shadow">
             <option selected>-- 日 --</option>
@@ -205,7 +241,12 @@ const checkContact = (stat: number) => {
       </div>
 
       <div class="py-1">
-        <div class="text-sm my-2">
+        <div v-if="checked === 1 && !(usingMacaoID || usingVisa)" class="text-sm my-2">
+          <span class="text-red-600 pr-1">*</span>
+          <span class="text-red-600">入境澳门证件或身份证编号：</span>
+        </div>
+
+        <div v-else class="text-sm my-2">
           <span class="text-red-600 pr-1">*</span>
           <span>入境澳门证件或身份证编号：</span>
         </div>
@@ -220,12 +261,17 @@ const checkContact = (stat: number) => {
           </div>
         </div>
         <div class="py-2" v-if="usingVisa || usingMacaoID">
-          <input v-model="idNumber" class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700">
+          <input v-if="checked && idNumber === ''" v-model="idNumber" class="w-full h-12 border-red-500 border-2 p-3 rounded text-md text-gray-700">
+          <input v-else v-model="idNumber" class="w-full h-12 border-gray-200 border p-3 rounded text-md text-gray-700">
         </div>
       </div>
 
       <div class="py-1">
-        <div class="text-sm my-2">
+        <div v-if="checked === 1 && (countryCode === '- 区号 -'||phoneNumber === '')" class="text-sm my-2">
+          <span class="text-red-600 pr-1">*</span>
+          <span class="text-red-600">联系电话：</span>
+        </div>
+        <div v-else class="text-sm my-2">
           <span class="text-red-600 pr-1">*</span>
           <span>联系电话：</span>
         </div>
@@ -241,7 +287,10 @@ const checkContact = (stat: number) => {
       </div>
     </div>
     <div class="min-w-full max-w-md px-3 py-1 justify-center bg-gray-200 shadow-md">
-      <div class="text-sm text-gray-700">
+      <div v-if="checked === 1 && !(cough || fever || noneSymptom)" class="text-sm text-red-600 font-bold">
+        您今天是否出现以下症状?
+      </div>
+      <div v-else class="text-sm text-gray-700">
         您今天是否出现以下症状?
       </div>
     </div>
@@ -262,7 +311,10 @@ const checkContact = (stat: number) => {
     </div>
 
     <div class="min-w-full max-w-md px-3 py-1 justify-center bg-gray-200 shadow-md">
-      <div class="text-sm text-gray-700">
+      <div v-if="checked === 1 && !(contact || nonContact)" class="text-sm text-red-600 font-bold">
+        您在过去14天内是否曾在无防护措施下接触新冠肺炎确诊病人?
+      </div>
+      <div v-else class="text-sm text-gray-700">
         您在过去14天内是否曾在无防护措施下接触新冠肺炎确诊病人?
       </div>
     </div>
