@@ -308,7 +308,7 @@ export default function Home() {
             </div>
             <div className="min-w-full max-w-md px-3 py-1 justify-center bg-white shadow-md">
                 <div className="grid grid-cols-2 gap-2">
-                    <button className="col-span-1 my-2 py-2 border rounded">重置</button>
+                    <button onClick={clearAll} className="col-span-1 my-2 py-2 border rounded">重置</button>
                     <button onClick={submitInfo} className="col-span-1 my-2 py-2 border rounded bg-blue-400 text-white">下一步</button>
                 </div>
             </div>
