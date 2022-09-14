@@ -1,4 +1,4 @@
-# firebase-nuxt-chatroom
+# firebase-nuxt-chatroom Project
 
 ## Build Setup
 
