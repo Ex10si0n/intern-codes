@@ -8,7 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 **/node_modules
-health-code-react/node_modules/
+nextjs-react-health-code/node_modules/
 dist
 dist-ssr
 *.local
@@ -26,4 +26,4 @@ dist-ssr
 
 # Local Netlify folder
 .netlify
-/health-code-react/node_modules/
+/nextjs-react-health-code/node_modules/
