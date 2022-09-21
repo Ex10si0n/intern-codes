@@ -31,14 +31,9 @@ const handleSignUp = () => {
   <div>
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
       <div class="px-8 py-6 mx-4 mt-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
-          <h3 class="text-2xl font-bold text-center">Join us</h3>
+          <h3 class="text-2xl font-bold text-center">Register Account</h3>
           <div>
               <div class="mt-4">
-                  <div>
-                      <div class="block" for="Name">Name</div>
-                              <input type="text" placeholder="Name"
-                                  class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
-                  </div>
                   <div class="mt-4">
                       <div class="block" for="email">Email</div>
                               <input type="text" placeholder="Email" v-model="email"

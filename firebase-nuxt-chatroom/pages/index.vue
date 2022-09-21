@@ -10,16 +10,17 @@ const openSignUpWindow = ref(true)
 const messageList = reactive([])
 const haveUsername = ref(false)
 
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    haveUsername.value = true
+    username.value = user.email.split('@')[0]
+    email.value = user.email
+  } else {
+    haveUsername.value = false
+  }
+})
 
 const fetchUser = (user) => {
-  const {uid, displayName, fbemail} = user
-
-  
-  // set user data to state
-  username.value = fbemail
-  email.value = fbemail
-  haveUsername.value = true
-  console.log('username', username.value, 'email', email.value, 'haveUsername', haveUsername.value)
   openSignUpWindow.value = false
 }
 
@@ -30,6 +31,7 @@ const sendMessage = async () => {
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   })
   message.value = ''
+  getMessages()
 }
 
 const getMessages = async () => {
