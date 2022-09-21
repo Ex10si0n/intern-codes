@@ -54,9 +54,9 @@ const parseTime = (time) => {
   return date.toLocaleTimeString().split(",")[1]
 }
 
-// setInterval(() => {
-//   getMessages()
-// }, 2000)
+setInterval(() => {
+  getMessages()
+}, 5000)
 
 </script>
 
