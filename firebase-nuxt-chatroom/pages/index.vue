@@ -5,8 +5,23 @@ import {reactive, ref} from "vue";
 const db = firebase.firestore()
 const message = ref('')
 const username = ref('')
+const email = ref('')
+const openSignUpWindow = ref(true)
 const messageList = reactive([])
 const haveUsername = ref(false)
+
+
+const fetchUser = (user) => {
+  const {uid, displayName, fbemail} = user
+
+  
+  // set user data to state
+  username.value = fbemail
+  email.value = fbemail
+  haveUsername.value = true
+  console.log('username', username.value, 'email', email.value, 'haveUsername', haveUsername.value)
+  openSignUpWindow.value = false
+}
 
 const sendMessage = async () => {
   await db.collection("messages").add({
@@ -31,26 +46,28 @@ const setUsername = (name) => {
   username.value = name
 }
 
+
 const parseTime = (time) => {
   const date = new Date(time.timestamp.toDate())
   return date.toLocaleTimeString().split(",")[1]
 }
 
-setInterval(() => {
-  getMessages()
-}, 2000)
+// setInterval(() => {
+//   getMessages()
+// }, 2000)
 
 </script>
 
 <template>
   <div class="container mx-auto">
-    <div class="max-w-2xl border rounded">
+    <SignUp v-if="openSignUpWindow" @returnUser="fetchUser"/>
+    <div v-else class="max-w-2xl border rounded">
       <div class="w-full">
         <div class="flex items-center p-3 border-b border-gray-300">
           <img class="object-cover w-10 h-10 rounded-full"
                src="https://media.macosicons.com/parse/files/macOSicons/8bdf3446f7274981ba7912638c1dbeb6_low_res_Messages__Catalina_.png"
                alt="username"/>
-          <span class="block ml-2 font-bold text-gray-600">🫥 Chatroom</span>
+          <span class="block ml-2 font-bold text-gray-600" @click="getMessages">🫥 Chatroom</span>
         </div>
 
         <div class="relative w-full p-6 overflow-auto h-full">
