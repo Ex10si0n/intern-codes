@@ -29,11 +29,11 @@ const puppeteer = require('puppeteer');
     await page.type(passwordSelector, botPassword)
     await page.click('.bg-blue-600')
 
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(300)
 
 
-    const inputBarSelector = 'input'
-    await page.type(inputBarSelector, 'Hello World! from @Bot')
+    // const inputBarSelector = 'input'
+    // await page.type(inputBarSelector, 'Hello World! from @Bot')
 
     await page.screenshot({path: 'chatroom-login.png'})
 
