@@ -103,7 +103,7 @@ setInterval(() => {
           <span class="block ml-2 font-bold text-gray-600">🫥 Chatroom</span>
         </div>
 
-        <div class="relative w-full p-6 overflow-auto h-full">
+        <div class="flex flex-col relative w-full p-6 overflow-auto h-screen">
           <ul class="space-y-2">
 
 
