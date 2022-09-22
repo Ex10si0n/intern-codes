@@ -76,9 +76,12 @@ const setUsername = (name) => {
 }
 
 
-const parseTime = (time) => {
-  const date = new Date(time.timestamp.toDate())
-  return date.toLocaleTimeString().split(",")[1]
+const parseTimeV2 = (time) => {
+  const date = new Date(parseInt(time))
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+  const seconds = date.getSeconds()
+  return `${hours}:${minutes}:${seconds}`
 }
 
 setInterval(() => {
@@ -97,7 +100,7 @@ setInterval(() => {
           <img class="object-cover w-10 h-10 rounded-full"
                src="https://media.macosicons.com/parse/files/macOSicons/8bdf3446f7274981ba7912638c1dbeb6_low_res_Messages__Catalina_.png"
                alt="username"/>
-          <span class="block ml-2 font-bold text-gray-600" @click="getMessages">🫥 Chatroom</span>
+          <span class="block ml-2 font-bold text-gray-600">🫥 Chatroom</span>
         </div>
 
         <div class="relative w-full p-6 overflow-auto h-full">
@@ -105,8 +108,8 @@ setInterval(() => {
 
 
             <div v-for="msg in messageList">
-              <ChatBubble v-if="msg.username !== username" :from="msg.username" :text="msg.message"/>
-              <MineBubble v-else :text="msg.message"/>
+              <ChatBubble v-if="msg.username !== username" :from="msg.username" :text="msg.message" :time="parseTimeV2(msg.time)"/>
+              <MineBubble v-else :text="msg.message" :time="parseTimeV2(msg.time)"/>
             </div>
 
 
