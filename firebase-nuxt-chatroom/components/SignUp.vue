@@ -5,8 +5,8 @@ import { ref } from "vue";
 
 const emit = defineEmits(['closeSignUpWindow', 'returnUser'])
 
-const email = ref("");
-const password = ref("");
+const email = ref("yan.ex10si0n@icloud.com");
+const password = ref("steve20010112YZB");
 const showSignUpWindow = ref(true);
 const showSignInWindow = ref(false);
 

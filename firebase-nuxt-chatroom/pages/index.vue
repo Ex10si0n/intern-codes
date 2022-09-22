@@ -1,8 +1,12 @@
 <script setup>
 import firebase from "firebase/compat";
+const db = firebase.firestore()
+
+import { getDatabase, ref as fRef, set as fSet, onValue } from "firebase/database";
+const rdb = getDatabase();
+
 import {reactive, ref} from "vue";
 
-const db = firebase.firestore()
 const message = ref('')
 const username = ref('')
 const email = ref('')
@@ -13,12 +17,36 @@ const haveUsername = ref(false)
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     haveUsername.value = true
-    username.value = user.email.split('@')[0]
+    username.value = user.email.split('@')[0].replace(/\./g, '')
     email.value = user.email
   } else {
     haveUsername.value = false
   }
 })
+
+const sendMessagesV2 = async () => {
+
+  const time = new Date().getTime().toString()
+
+  await fSet(fRef(rdb, 'messages/' + time), {
+    username: username.value,
+    message: message.value,
+    email: email.value,
+    time: new Date().getTime()
+  })
+  message.value = ''
+}
+
+const getMessagesV2 = async () => {
+  const messages = await fRef(rdb, 'messages/')
+  onValue(messages, (snapshot) => {
+    const data = snapshot.val()
+    messageList.splice(0, messageList.length)
+    for (const key in data) {
+      messageList.push(data[key])
+    }
+  })
+}
 
 const fetchUser = (user) => {
   openSignUpWindow.value = false
@@ -31,7 +59,6 @@ const sendMessage = async () => {
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   })
   message.value = ''
-  getMessages()
 }
 
 const getMessages = async () => {
@@ -54,9 +81,10 @@ const parseTime = (time) => {
   return date.toLocaleTimeString().split(",")[1]
 }
 
-// setInterval(() => {
-//   getMessages()
-// }, 5000)
+setInterval(() => {
+  getMessagesV2()
+  console.log(messageList)
+}, 1000)
 
 </script>
 
@@ -91,7 +119,7 @@ const parseTime = (time) => {
                  :placeholder="'Send Message as ' + username"
                  v-if="haveUsername"
                  v-model="message"
-                 v-on:keyup.enter="sendMessage"
+                 v-on:keyup.enter="sendMessagesV2"
                  class="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
                  name="message"
                  required
@@ -107,7 +135,7 @@ const parseTime = (time) => {
           />
 
 
-          <button v-if="haveUsername" @click="sendMessage" type="submit">
+          <button v-if="haveUsername" @click="sendMessagesV2" type="submit">
             <svg class="w-5 h-5 text-gray-500 origin-center transform rotate-90" xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 20 20" fill="currentColor">
               <path
