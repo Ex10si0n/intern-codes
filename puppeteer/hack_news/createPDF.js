@@ -4,9 +4,9 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('https://news.ycombinator.com', {
-    waitUntil: 'networkidle2',
+    waitUntil: 'networkidle0',
   });
-  await page.pdf({path: 'hn.pdf', format: 'a4'});
+  await page.pdf({path: 'hack_news.pdf', format: 'a4'});
 
   await browser.close();
 })();
