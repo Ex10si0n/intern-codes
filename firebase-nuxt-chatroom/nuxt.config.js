@@ -45,13 +45,7 @@ export default {
       '@nuxtjs/firebase',
       {
         config: {
-          // apiKey: "AIzaSyBL9mOuEmLmtf-ROzvSqrU8eF-rksHMB18",
-          authDomain: "ex10si0n-chatroom.firebaseapp.com",
-          databaseURL: "https://ex10si0n-chatroom-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "ex10si0n-chatroom",
-          storageBucket: "ex10si0n-chatroom.appspot.com",
-          messagingSenderId: "478844746224",
-          appId: "1:478844746224:web:288e165190f5837ff34535"
+          ... using your own firebase API ...
         },
         services: {
           auth: true,
